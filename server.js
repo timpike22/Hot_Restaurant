@@ -9,6 +9,17 @@ var path = require("path");
 var app = express();
 var PORT = 3000;
 
+var characters = [
+  {
+    routeName: "bob",
+    name: "Bob",
+    phoneNumber: "480 999 9999",
+    email: "bob@gmail.com",
+    uniqueId: "sloppybob"
+  }
+  
+];
+
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -32,16 +43,44 @@ app.get("/reserve", function(req, res)
 
 });
 
+/*
 app.get("/waitlist", function(req, res)
 {
 	res.sendFile(path.join(__dirname, "waitlist.html"));
 });
-
-/*
-homes.html
-tables.html
-reserve.html
 */
+// Search for Specific Character (or all characters) - provides JSON
+app.get("/api/:reservations?", function(req, res) {
+  var chosen = req.params.reservations;
+
+  if (chosen) {
+    console.log(chosen);
+
+    for (var i = 0; i < reservations.length; i++) {
+      if (chosen === reservations[i].routeName) {
+        return res.json(reservations[i]);
+      }
+    }
+    return res.json(false);
+  }
+  return res.json(reservations);
+});
+
+// Create New Characters - takes in JSON input
+app.post("/api/new", function(req, res) 
+{
+  // req.body hosts is equal to the JSON post sent from the user
+  // This works because of our body-parser middleware
+  var newReservation = req.body;
+  newReservation.routeName = newReservation.name.replace(/\s+/g, "").toLowerCase();
+
+  console.log(newReservation);
+
+  characters.push(newReservation);
+
+  res.json(newReservation);
+});
+
 
 // Starts the server to begin listening
 // =============================================================
