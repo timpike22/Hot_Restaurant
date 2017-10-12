@@ -9,7 +9,7 @@ var path = require("path");
 var app = express();
 var PORT = 3000;
 
-var characters = [
+var reservations = [
   {
     routeName: "bob",
     name: "Bob",
@@ -76,7 +76,7 @@ app.post("/api/new", function(req, res)
 
   console.log(newReservation);
 
-  characters.push(newReservation);
+  reservations.push(newReservation);
 
   res.json(newReservation);
 });
