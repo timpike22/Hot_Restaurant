@@ -32,6 +32,11 @@ app.get("/reserve", function(req, res)
 
 });
 
+app.get("/waitlist", function(req, res)
+{
+	res.sendFile(path.join(__dirname, "waitlist.html"));
+});
+
 /*
 homes.html
 tables.html
